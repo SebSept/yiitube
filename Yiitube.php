@@ -2,12 +2,14 @@
 /**
  * Yiitube
  * 
- * this widget render inside your page a video from
+ * Yii widget to render inside your page a video from
  * youtube, megavideo, veoh or vimeo
  * 
- * @version 1.1.1 - constants-refactoring
+ * This code is ugly but it does the job...
+ * 
+ * @version 1.2
  * @author Nicola Puddu
- * @author Sebastien Monterisi <sebastienmonterisi@yahoo.fr>
+ * @author Sébastien Monterisi <sebastienmonterisi@yahoo.fr>
  */
 class Yiitube extends CWidget {
 	
@@ -28,6 +30,7 @@ class Yiitube extends CWidget {
 	const SERVICE_MEGAVIDEO = 'megavideo';
 	const SERVICE_VIMEO = 'vimeo';
 	const SERVICE_VEOH = 'veoh';
+        const SERVICE_DAILYMOTION = 'dailymotion';
 	
 	/**
 	 * @var array Possible standard heights of a youtube video
@@ -57,6 +60,12 @@ class Yiitube extends CWidget {
 							'big' => 680,
 							'huge' => 850,
 						),
+                                                'dailymotion'=>array(
+							'small' => 180,
+							'normal' => 270,
+							'big' => 315,
+							'huge' => 576,
+						),
 					);
 	/**
 	 * @var array possible standard widths of a youtube video
@@ -85,6 +94,12 @@ class Yiitube extends CWidget {
 							'normal' => 615,
 							'big' => 820,
 							'huge' => 1025,
+						),
+                                                'dailymotion'=>array(
+							'small' => 320,
+							'normal' => 480,
+							'big' => 560,
+							'huge' => 1024,
 						),
 					);
 	/**
@@ -162,6 +177,9 @@ class Yiitube extends CWidget {
 			case self::SERVICE_VEOH:
 				return true;
 				break;
+                       case self::SERVICE_DAILYMOTION:
+				return true;
+				break;
 			default:
 				$this->_status = self::NO_SUPPORTED_PLAYER;
 				return false;
@@ -218,6 +236,22 @@ SERVICE_VIMEO;
 		</object>
 SERVICE_VEOH;
 	}
+        
+        /**
+         * Generate the Dailymotion player code
+         * 
+         * @return string Dailymotion html code
+         */
+        protected function dailymotionCode()
+        {
+            return <<<CODESET
+                <iframe frameborder="0" 
+                    width="{$this->_width[self::SERVICE_DAILYMOTION][$this->size]}" 
+                    height="{$this->_height[self::SERVICE_DAILYMOTION][$this->size]}" 
+                    src="http://www.dailymotion.com/embed/video/{$this->v}">
+                </iframe>
+CODESET;
+        }
 	 
 	/**
 	 * @return string the video url that has to be used inside the iframe
@@ -261,6 +295,9 @@ SERVICE_VEOH;
 	}
 	
 	/**
+         * Current error string
+         * 
+         * That function is call render but it doesn't render anything!
 	 * @return string the error message to be displayed
 	 */
 	protected function renderError()

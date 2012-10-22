@@ -6,6 +6,7 @@ Original file extension comes from [here](http://www.yiiframework.com/extension/
 
 ## Changelog :
 
+- added support of Dailymotion videos ( dailymotion.com )
 - prefixed video service (players) constants with 'SERVICE' eg YOUTUBE becomes SERVICE_YOUTUBE - That's (at least) for better readability while using ide autocompletion. merged from constants-refactoring branch.
 
 
