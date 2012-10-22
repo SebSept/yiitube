@@ -1,30 +1,36 @@
 <?php
 /**
+ * Yiitube
+ * 
  * this widget render inside your page a video from
  * youtube, megavideo, veoh or vimeo
+ * 
+ * @version 1.1.1 - constants-refactoring
  * @author Nicola Puddu
+ * @author Sebastien Monterisi <sebastienmonterisi@yahoo.fr>
  */
 class Yiitube extends CWidget {
 	
 	/**
-	 * these constants rappresent the possible status of the widget
-	 * @var int
+	 * Possible status of the widget 
+	 * @var int Widget status
 	 */
 	const OK = 0;
 	const NO_VIDEO_CODE = 1;
 	const NO_VIDEO_CODE_IN_URL = 2;
 	const NO_SUPPORTED_PLAYER = 3;
+        
 	/**
-	 * these constants rappresent the available players
-	 * @var string the player name
+	 * Available video hosting services players
+	 * @var string Player name
 	 */
-	const YOUTUBE = 'youtube';
-	const MEGAVIDEO = 'megavideo';
-	const VIMEO = 'vimeo';
-	const VEOH = 'veoh';
+	const SERVICE_YOUTUBE = 'youtube';
+	const SERVICE_MEGAVIDEO = 'megavideo';
+	const SERVICE_VIMEO = 'vimeo';
+	const SERVICE_VEOH = 'veoh';
 	
 	/**
-	 * @var array possible standard heights of a youtube video
+	 * @var array Possible standard heights of a youtube video
 	 */
 	private $_height = array(
 						'youtube'=>array(
@@ -144,16 +150,16 @@ class Yiitube extends CWidget {
 	protected function playerSupport()
 	{
 		switch (strtolower($this->player)) {
-			case self::YOUTUBE:
+			case self::SERVICE_YOUTUBE:
 				return true;	
 				break;
-			case self::MEGAVIDEO:
+			case self::SERVICE_MEGAVIDEO:
 				return true;
 				break;
-			case self::VIMEO:
+			case self::SERVICE_VIMEO:
 				return true;
 				break;
-			case self::VEOH:
+			case self::SERVICE_VEOH:
 				return true;
 				break;
 			default:
@@ -168,10 +174,10 @@ class Yiitube extends CWidget {
 	 */
 	protected function youtubeCode()
 	{
-		return <<<YOUTUBE
-		<iframe title="YouTube video player" width="{$this->_width[self::YOUTUBE][$this->size]}" height="{$this->_height[self::YOUTUBE][$this->size]}" 
+		return <<<SERVICE_YOUTUBE
+		<iframe title="YouTube video player" width="{$this->_width[self::SERVICE_YOUTUBE][$this->size]}" height="{$this->_height[self::SERVICE_YOUTUBE][$this->size]}" 
 		src="{$this->youtubeVideoURL()}" frameborder="0" allowfullscreen></iframe>
-YOUTUBE;
+SERVICE_YOUTUBE;
 	}
 	
 	/**
@@ -179,13 +185,13 @@ YOUTUBE;
 	 */
 	protected function megavideoCode()
 	{
-		return <<<MEGAVIDEO
-		<object width="{$this->_width[self::MEGAVIDEO][$this->size]}" height="{$this->_height[self::MEGAVIDEO][$this->size]}">
+		return <<<SERVICE_MEGAVIDEO
+		<object width="{$this->_width[self::SERVICE_MEGAVIDEO][$this->size]}" height="{$this->_height[self::SERVICE_MEGAVIDEO][$this->size]}">
 			<param name="movie" value="http://www.megavideo.com/v/{$this->v}"></param>
 			<param name="allowFullScreen" value="true"></param>
-			<embed src="http://www.megavideo.com/v/{$this->v}" type="application/x-shockwave-flash" allowfullscreen="true" width="{$this->_width[self::MEGAVIDEO][$this->size]}" height="{$this->_height[self::MEGAVIDEO][$this->size]}"></embed>
+			<embed src="http://www.megavideo.com/v/{$this->v}" type="application/x-shockwave-flash" allowfullscreen="true" width="{$this->_width[self::SERVICE_MEGAVIDEO][$this->size]}" height="{$this->_height[self::SERVICE_MEGAVIDEO][$this->size]}"></embed>
 		</object>
-MEGAVIDEO;
+SERVICE_MEGAVIDEO;
 	}
 	
 	/**
@@ -193,9 +199,9 @@ MEGAVIDEO;
 	 */
 	protected function vimeoCode()
 	{
-		return <<<VIMEO
-		<iframe src="http://player.vimeo.com/video/21339058?byline=0&amp;portrait=0" width="{$this->_width[self::VIMEO][$this->size]}" height="{$this->_height[self::VIMEO][$this->size]}" frameborder="0"></iframe>
-VIMEO;
+		return <<<SERVICE_VIMEO
+		<iframe src="http://player.vimeo.com/video/21339058?byline=0&amp;portrait=0" width="{$this->_width[self::SERVICE_VIMEO][$this->size]}" height="{$this->_height[self::SERVICE_VIMEO][$this->size]}" frameborder="0"></iframe>
+SERVICE_VIMEO;
 	}
 	
 	/**
@@ -203,14 +209,14 @@ VIMEO;
 	 */
 	protected function veohCode()
 	{
-		return <<<VEOH
-		<object width="{$this->_width[self::VEOH][$this->size]}" height="{$this->_height[self::VEOH][$this->size]}" id="veohFlashPlayer" name="veohFlashPlayer">
+		return <<<SERVICE_VEOH
+		<object width="{$this->_width[self::SERVICE_VEOH][$this->size]}" height="{$this->_height[self::SERVICE_VEOH][$this->size]}" id="veohFlashPlayer" name="veohFlashPlayer">
 			<param name="movie" value="http://www.veoh.com/static/swf/veoh/MediaPlayerWrapper.swf?version=&permalinkId={$this->v}&player=videodetailsembedded&videoAutoPlay=0&id=anonymous"></param>
 			<param name="allowFullScreen" value="true"></param>
 			<param name="allowscriptaccess" value="always"></param>
-			<embed src="http://www.veoh.com/static/swf/veoh/MediaPlayerWrapper.swf?version=&permalinkId={$this->v}&player=videodetailsembedded&videoAutoPlay=0&id=anonymous" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="{$this->_width[self::VEOH][$this->size]}" height="{$this->_height[self::VEOH][$this->size]}" id="veohFlashPlayerEmbed" name="veohFlashPlayerEmbed"></embed>
+			<embed src="http://www.veoh.com/static/swf/veoh/MediaPlayerWrapper.swf?version=&permalinkId={$this->v}&player=videodetailsembedded&videoAutoPlay=0&id=anonymous" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="{$this->_width[self::SERVICE_VEOH][$this->size]}" height="{$this->_height[self::SERVICE_VEOH][$this->size]}" id="veohFlashPlayerEmbed" name="veohFlashPlayerEmbed"></embed>
 		</object>
-VEOH;
+SERVICE_VEOH;
 	}
 	 
 	/**
@@ -231,12 +237,12 @@ VEOH;
 	protected function getVideoCode()
 	{
 		switch (strtolower($this->player)) {
-			case self::VIMEO:
+			case self::SERVICE_VIMEO:
 				$video_code = substr(parse_url($this->v, PHP_URL_PATH), 1);
 				if ($video_code)
 					 return $video_code;
 				break;
-			case self::VEOH:
+			case self::SERVICE_VEOH:
 				$video_code = substr(parse_url($this->v, PHP_URL_PATH), 7);
 				if ($video_code)
 					 return $video_code;
