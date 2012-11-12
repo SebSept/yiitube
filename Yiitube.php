@@ -218,7 +218,7 @@ SERVICE_MEGAVIDEO;
 	protected function vimeoCode()
 	{
 		return <<<SERVICE_VIMEO
-		<iframe src="http://player.vimeo.com/video/21339058?byline=0&amp;portrait=0" width="{$this->_width[self::SERVICE_VIMEO][$this->size]}" height="{$this->_height[self::SERVICE_VIMEO][$this->size]}" frameborder="0"></iframe>
+		<iframe src="http://player.vimeo.com/video/{$this->v}" width="{$this->_width[self::SERVICE_VIMEO][$this->size]}" height="{$this->_height[self::SERVICE_VIMEO][$this->size]}" frameborder="0"></iframe>
 SERVICE_VIMEO;
 	}
 	
