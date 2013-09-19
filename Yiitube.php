@@ -32,6 +32,7 @@ class Yiitube extends CWidget {
     const SERVICE_VIMEO = 'vimeo';
     const SERVICE_VEOH = 'veoh';
     const SERVICE_DAILYMOTION = 'dailymotion';
+    const SERVICE_WISTIA = 'wistia';
     
     /**
      * @var array Possible standard heights of a youtube video
@@ -67,6 +68,12 @@ class Yiitube extends CWidget {
                             'big' => 315,
                             'huge' => 576,
                         ),
+                        'wistia' => array(
+                            'small' => 180,
+                            'normal' => 270,
+                            'big' => 315,
+                            'huge' => 576,
+                        ),
                     );
     /**
      * @var array possible standard widths of a youtube video
@@ -97,6 +104,12 @@ class Yiitube extends CWidget {
                             'huge' => 1025,
                         ),
                         'dailymotion'=>array(
+                            'small' => 320,
+                            'normal' => 480,
+                            'big' => 560,
+                            'huge' => 1024,
+                        ),
+                        'wistia' => array(
                             'small' => 320,
                             'normal' => 480,
                             'big' => 560,
@@ -176,27 +189,24 @@ class Yiitube extends CWidget {
             if (stristr($this->v, self::SERVICE_YOUTUBE)) {
                 $this->player = self::SERVICE_YOUTUBE;
                 return true;
-                break;
             }elseif(stristr($this->v, self::SERVICE_MEGAVIDEO)) {
                 $this->player = self::SERVICE_MEGAVIDEO;
                 return true;
-                break;
             }elseif(stristr($this->v, self::SERVICE_VIMEO)) {
                 $this->player = self::SERVICE_VIMEO;
                 return true;
-                break;
             }elseif(stristr($this->v, self::SERVICE_VEOH)) {
                 $this->player = self::SERVICE_VEOH;
                 return true;
-                break;
             }elseif(stristr($this->v, self::SERVICE_DAILYMOTION)) {
                 $this->player = self::SERVICE_DAILYMOTION;
                 return true;
-                break;
+            }elseif(stristr($this->v, self::SERVICE_WISTIA)) {
+                $this->player = self::SERVICE_WISTIA;
+                return true;
             }else{
                 $this->_status = self::NO_SUPPORTED_PLAYER;
                 return false;
-                break;
             }
         //If player parameter is not empty, we will check if Yiitube supports
         //the desired player        
@@ -217,6 +227,9 @@ class Yiitube extends CWidget {
                 case self::SERVICE_DAILYMOTION:
                     return true;
                     break;
+                case self::SERVICE_WISTIA:
+                    return true;
+                    break;
                 default:                
                     $this->_status = self::NO_SUPPORTED_PLAYER;
                     return false;
@@ -235,7 +248,17 @@ class Yiitube extends CWidget {
         src="{$this->youtubeVideoURL()}" frameborder="0" allowfullscreen></iframe>
 SERVICE_YOUTUBE;
     }
-    
+
+    /**
+     * @return string the wistia iframe according to the settings
+     */
+    protected function wistiaCode()
+    {
+        return <<<SERVICE_WISTIA
+        <iframe src="http://fast.wistia.net/embed/iframe/{$this->v}" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" width="{$this->_width[self::SERVICE_WISTIA][$this->size]}" height="{$this->_height[self::SERVICE_WISTIA][$this->size]}"></iframe>
+SERVICE_WISTIA;
+    }
+
     /**
      * @return string the megavideo object code according to the settings
      */
